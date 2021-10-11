@@ -34,7 +34,7 @@ async function handleLoad(){
 }
 
 function fetchPost(){
-    return fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=6ce4688239e846a58282d30e294094d4`)
+    return fetch(`https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=6ce4688239e846a58282d30e294094d4`)
     .then(function (response) {
         return response.json();
     })
