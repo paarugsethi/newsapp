@@ -34,7 +34,55 @@ function createPost(response){
 
     for (let i = 0; i < 10; i++){
         let post = data[i];
-        console.log(post.title);
+        const newsCard = createNewsCard(post);
+        newsDiv.append(newsCard);
     }
+
+    container.append(newsDiv)
+
+}
+
+function createNewsCard(post){
+
+    const articleDiv = document.createElement("div");
+    articleDiv.setAttribute("class", "article-div");
+
+    const infoDiv = document.createElement("div");
+    infoDiv.setAttribute("class", "info-div");
+
+    const title = post.title;
+    const summary = post.description;
+    const source = post.source.name;
+    const newsImage = post.urlToImage;
+    const learnMore = post.url;
+
+    const heading = document.createElement("h2");
+    heading.textContent = title;
+    heading.setAttribute("class", "news-head");
+
+    const story = document.createElement("p");
+    story.textContent = summary;
+    story.setAttribute("class", "news-body");
+
+    const sourceInfo = document.createElement("p");
+    sourceInfo.textContent = `Source: ${source}`;
+    sourceInfo.setAttribute("class", "news-body");
+
+    const learn = document.createElement("p");
+    learn.innerHTML = `<a href="${learnMore}">Learn More</a>`;
+    learn.setAttribute("class", "news-body");
+
+    const imageDiv = document.createElement("div");
+    imageDiv.setAttribute("class", "image-div")
+    imageDiv.innerHTML = `<img class="img" src="${newsImage}"/>`;
+
+    infoDiv.append(heading, story, sourceInfo, learn);
+    articleDiv.append(imageDiv, infoDiv);
+
+    console.log(title);
+    console.log(summary);
+    console.log(source, learnMore);
+
+    return articleDiv;
 
 }

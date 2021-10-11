@@ -4,13 +4,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
     <title>News Home</title>
+    <style>
+        #main-head{
+            font-family: 'Newsreader', serif;
+            font-weight: 500;
+            text-align: center;
+            margin: 20px;
+            font-size: 44px;
+        }
+
+        #headline-head{
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px;
+            font-size: 20px;
+        }
+
+        .image-div{
+            width: 25%;
+            padding: 2.5%;
+            margin: auto;
+        }
+        .img{
+            width: 100%;
+            border-radius: 8px;
+        }
+        .article-div{
+            display: flex;
+            flex-direction: row;
+            width: 70%;
+            margin: 20px auto;
+            border-radius: 8px;
+            background-color: #F8F9FA;
+        }
+        .info-div{
+            width: 65%;
+            padding: 2.5%;
+        }
+
+        .news-head{
+            font-family: 'Newsreader', serif;
+            font-weight: 500;
+        }
+
+        .news-body{
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
 </head>
 <body>
 
-    <h1 id="main-head">News India</h1>
+    <h1 id="main-head">News in India</h1>
 
-    <h3>Headlines</h3>
+    <h3 id="headline-head">Today's Headlines</h3>
 
     <div id="body-container"></div>
     
