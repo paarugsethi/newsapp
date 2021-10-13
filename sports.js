@@ -21,6 +21,18 @@ techHead.addEventListener("click", function(){
 
 window.addEventListener("load", handleLoad);
 
+const searchBtn = document.getElementById("submit");
+searchBtn.addEventListener("click", function(e){
+    e.preventDefault();
+
+    const bodyContainer = document.getElementById("body-container");
+    bodyContainer.innerHTML = null;
+
+    const query = document.querySelector("input").value;
+
+    handleQuery(query);
+})
+
 async function handleLoad(){
     try {
         let response = await fetchPost();
@@ -49,16 +61,36 @@ function createPost(response){
     
     const data = response.articles;
 
-    const newsDiv = document.createElement("div");
-    newsDiv.setAttribute("id", "news-container");
+    if (data.length == 0){
 
-    for (let i = 0; i < 10; i++){
-        let post = data[i];
-        const newsCard = createNewsCard(post);
-        newsDiv.append(newsCard);
+        const errorMsg = document.createElement("h2");
+        errorMsg.textContent = `No results found.`;
+        errorMsg.setAttribute('id', 'error');
+
+        container.append(errorMsg);
     }
+    else{
+        const newsDiv = document.createElement("div");
+        newsDiv.setAttribute("id", "news-container");
+    
+        if (data.length > 10){
+            for (let i = 0; i < 10; i++){
+                let post = data[i];
+                const newsCard = createNewsCard(post);
+                newsDiv.append(newsCard);
+            }
+        }
+        else{
+            for (let i = 0; i < data.length; i++){
+                let post = data[i];
+                const newsCard = createNewsCard(post);
+                newsDiv.append(newsCard);
+            }
+        }
+    
+        container.append(newsDiv)
 
-    container.append(newsDiv)
+    }
 
 }
 
@@ -101,4 +133,29 @@ function createNewsCard(post){
 
     return articleDiv;
 
+}
+
+function fetchQueryPost(query){
+    return fetch(`https://newsapi.org/v2/top-headlines?q=${query}&country=in&apiKey=6ce4688239e846a58282d30e294094d4`)
+    .then(function(response){
+        return response.json();
+    })
+    .catch(function(err){
+
+    })
+}
+
+async function handleQuery(query){
+    try{
+        let queryResponse = await fetchQueryPost(query);
+        
+        const searchHead = document.getElementById("headline-head");
+        searchHead.textContent = `Showing results for "${query}"`;
+
+        createPost(queryResponse);
+
+    }
+    catch{
+        
+    }
 }

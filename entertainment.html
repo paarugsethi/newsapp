@@ -77,6 +77,47 @@
             color: #5F6368;
             font-size: 14px;
         }
+
+        
+        .form{
+            width: 30%;
+            margin-left: 25%;
+        }
+
+        .search-box{
+            background-color: white;
+            border: none;
+            border-radius: 6px;
+            height: 80%;
+            width: 70%;
+            color: #5F6368;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            margin: auto;
+            margin-top: 1%;
+        }
+
+        .search-box:focus{
+            outline: none;
+        }
+
+        #submit{
+            background-image: url("button.jpg");
+            background-size: cover;
+            border: none;
+            width: 26px;
+            height: 26px;
+            cursor: pointer;
+            color: transparent;
+        }
+
+        #error{
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 500;
+            font-size: 20px;
+            margin: 30px auto;
+        }
     </style>
 </head>
 <body>
@@ -84,10 +125,17 @@
     <h1 id="main-head">News in India</h1>
 
     <div id="navbar">
+        
         <p id="nav-head">Headlines</p>
         <p id="nav-entertainment">Entertainment</p>
         <p id="nav-sports">Sports</p>
         <p id="nav-tech">Technology</p>
+        
+        <form class="form">
+            <input type="text" class="search-box" placeholder="Search for topics">
+            <input type="submit" id="submit">
+        </form>
+    
     </div>
 
     <h3 id="headline-head">Entertainment</h3>
