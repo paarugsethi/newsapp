@@ -1,3 +1,7 @@
+let currentPage = 1;
+let limit = 5;
+
+
 const divHead = document.getElementById("nav-head");
 const entertainmentHead = document.getElementById("nav-entertainment");
 const sportsHead = document.getElementById("nav-sports");
@@ -19,20 +23,69 @@ techHead.addEventListener("click", function(){
     window.location.href = "technology.html";
 });
 
-window.addEventListener("load", handleLoad);
 
 const searchBtn = document.getElementById("submit");
 searchBtn.addEventListener("click", function(e){
     e.preventDefault();
-
+    
+    createPagination();  // CREATING PAGINATION ON CLICKING SEARCH
+    
     const bodyContainer = document.getElementById("body-container");
     bodyContainer.innerHTML = null;
-
+    
     const query = document.querySelector("input").value;
-
-    handleQuery(query);
+    
+    handleQuery(query, currentPage, limit);
 })
 
+const pagination = document.getElementById("pagination");
+pagination.addEventListener("click", handlePageChange);
+
+function createPagination(){
+
+    console.log(currentPage)
+    const pageDiv = document.getElementById("pagination");
+    pageDiv.innerHTML = null;
+    // Page prev, current, next
+    
+    const prev = document.createElement("button");
+    prev.textContent = currentPage - 1;
+    prev.name = currentPage - 1;
+    
+    if (currentPage === 1){
+        prev.textContent = "Previous";
+        prev.disabled = true;
+    }
+    
+    const current = document.createElement("button");
+    current.textContent = currentPage;
+    current.name = currentPage;
+    
+    const next = document.createElement("button");
+    next.textContent = currentPage + 1;
+    next.name = currentPage + 1;
+    
+    pageDiv.append(prev, current, next);
+}
+
+window.addEventListener("load", handleLoad);
+
+async function handlePageChange(e){
+    try{
+        const pageNumber = parseInt(e.target.name);
+        currentPage = pageNumber;
+        console.log("HANDLE", currentPage)
+        createPagination(currentPage);
+
+        query = document.querySelector("input").value;
+        handleQuery(query, currentPage, limit);
+
+    }
+    catch{
+
+    }
+
+}
 async function handleLoad(){
     try {
         let response = await fetchPost();
@@ -46,7 +99,7 @@ async function handleLoad(){
 }
 
 function fetchPost(){
-    return fetch(`https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=6ce4688239e846a58282d30e294094d4`)
+    return fetch(`https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=8abeb07e9a094ab7a25ba0162f8cbf40`)
     .then(function (response) {
         return response.json();
     })
@@ -62,7 +115,6 @@ function createPost(response){
     const data = response.articles;
 
     if (data.length == 0){
-
         const errorMsg = document.createElement("h2");
         errorMsg.textContent = `No results found.`;
         errorMsg.setAttribute('id', 'error');
@@ -72,7 +124,7 @@ function createPost(response){
     else{
         const newsDiv = document.createElement("div");
         newsDiv.setAttribute("id", "news-container");
-    
+        
         if (data.length > 10){
             for (let i = 0; i < 10; i++){
                 let post = data[i];
@@ -135,8 +187,12 @@ function createNewsCard(post){
 
 }
 
-function fetchQueryPost(query){
-    return fetch(`https://newsapi.org/v2/top-headlines?q=${query}&country=in&apiKey=6ce4688239e846a58282d30e294094d4`)
+function fetchQueryPost(query, page, limit){
+    
+    page = page || 1;
+    limit = limit || 5;
+
+    return fetch(`https://newsapi.org/v2/top-headlines?q=${query}&page=${page}&pageSize=${limit}&apiKey=8abeb07e9a094ab7a25ba0162f8cbf40`)
     .then(function(response){
         return response.json();
     })
@@ -145,9 +201,9 @@ function fetchQueryPost(query){
     })
 }
 
-async function handleQuery(query){
+async function handleQuery(query, page, limit){
     try{
-        let queryResponse = await fetchQueryPost(query);
+        let queryResponse = await fetchQueryPost(query, page, limit);
         
         const searchHead = document.getElementById("headline-head");
         searchHead.textContent = `Showing results for "${query}"`;
